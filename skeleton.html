@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>NoHost</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="/styles.css" />
+    <script src="/everypage.js"></script>
+    <script src="/dropbox.js"></script>
+    __REPLACE_HEAD__
+  </head>
+  <body>
+    <header id="header">
+      <div id="header-title">
+      </div>
+      <div>
+        <svg class="menu-toggle" onclick="com.menu.show()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
+        </svg>
+      </div>
+    </header>
+    <div id="menu-overlay" onclick="com.menu.hide()"></div>
+    <div id="menu-wrapper" onclick="com.menu.noop(event)">
+      <div class="menu-close">
+        <svg class="menu-toggle" onclick="com.menu.hide()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+          <path d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z"/>
+        </svg>
+      </div>
+      <div id="menu-tab-buttons">
+        <button onclick="com.menu.showAppTab()">App</button>
+        <button onclick="com.menu.showMainTab()">Main</button>
+      </div>
+      <div id="app-menu-tab" class="menu-tab">
+        <div id="app-menu-entries">
+          No App Menu.
+        </div>
+      </div>
+      <div id="main-menu-tab" class="menu-tab">
+        <a href="/">Home</a>
+        <hr />
+        <div id="main-menu-apps"></div>
+      </div>
+    </div>
+    <div id="app">
+      <div id="spinner-container">
+        <div id="spinner"></div>
+      </div>
+    </div>
+    __REPLACE_BODY__
+  </body>
+</html>
