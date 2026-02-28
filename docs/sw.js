@@ -91,6 +91,7 @@ async function buildAppResponse(route) {
   const { base } = manifest;
   head = assetsToString(manifest.head, base);
   body = assetsToString(manifest.body, base);
+  console.log("HEAD/BODY", head, body);
   const response = await fetch("/skeleton.html");
   const bodyStream = response.body
     .pipeThrough(new TextDecoderStream())
