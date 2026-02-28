@@ -153,7 +153,21 @@ const streamingReplace = (find, replace) => {
 };
 
 async function userRoutes() {
-  const settings = await userSettings();
+  // const settings = await userSettings();
+  const settings = {
+    apps: [
+      {
+        path: "demo",
+        menu: "Demo",
+        manifest: "/demo/manifest.json",
+      },
+      {
+        path: "demo2",
+        menu: "Demo2",
+        manifest: "/demo2/manifest.json",
+      },
+    ],
+  };
   return settings["apps"];
 }
 
