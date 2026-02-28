@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "path": "demo",
+      "menu": "Demo",
+      "manifest": "/demo/manifest.json"
+    },
+    {
+      "path": "demo2",
+      "menu": "Demo2",
+      "manifest": "/demo2/manifest.json"
+    }
+  ]
+}

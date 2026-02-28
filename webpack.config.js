@@ -13,7 +13,7 @@ const getDropboxPath = (path) => DATA_DIR + path.substring(API_BASE.length);
 const config = {
   entry: {},
   devServer: {
-    static: "./www",
+    static: "./docs",
     hot: true,
     setupMiddlewares: (middlewares, devServer) => {
       // Accesses JSON files in data dir like it would with Dropbox.
