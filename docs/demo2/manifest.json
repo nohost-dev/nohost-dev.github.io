@@ -1,0 +1,9 @@
+{
+  "name": "demo",
+  "entries": [
+    ["index.tsx", "index.js"],
+    ["styles.scss", "styles.css"]
+  ],
+  "head": [{ "type": "link", "path": "styles.css" }],
+  "body": [{ "type": "script", "path": "index.js" }]
+}
