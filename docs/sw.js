@@ -54,6 +54,7 @@ self.addEventListener("fetch", (event) => {
       event.respondWith(getControlledRouteResponses(controlledRoute));
     }
   }
+
   // Handle static assests
   // if (requestShouldBeCached(request)) {
   //   event.respondWith(cacheThenNetwork(event));

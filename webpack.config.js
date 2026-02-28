@@ -11,9 +11,13 @@ const DATA_DIR = path.resolve(__dirname, "data") + "/nohost.dev/";
 const getDropboxPath = (path) => DATA_DIR + path.substring(API_BASE.length);
 
 const config = {
-  entry: {},
+  entry: {
+    "oauth-callback": "./lib/oauth-callback.js",
+  },
   devServer: {
-    static: "./docs",
+    static: {
+      directory: path.join(__dirname, "docs"),
+    },
     hot: true,
     setupMiddlewares: (middlewares, devServer) => {
       // Accesses JSON files in data dir like it would with Dropbox.
@@ -105,7 +109,10 @@ const loadApps = (config) => {
       });
     }
   });
-  config.entry = Object.fromEntries(entries.map((e) => [e.name, e.import]));
+  Object.assign(
+    config.entry,
+    Object.fromEntries(entries.map((e) => [e.name, e.import]))
+  );
 };
 
 const configureForEnv = (config) => {
@@ -133,5 +140,6 @@ module.exports = function () {
       })
     );
   }
+  console.log(config.entry);
   return config;
 };
