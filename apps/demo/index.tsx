@@ -15,7 +15,7 @@ const Task: Uses<iTask> = ({ title, done, id }) => (
 
 const TaskList: Uses<iTask[]> = (tasks) => (
   <div>
-    <h3>Tasks</h3>
+    <h3>Tasks with update</h3>
     <Task.repeat props={tasks} />
   </div>
 );
