@@ -1,8 +1,9 @@
 import { mount, Uses, watch } from "wallace";
 import { dbx } from "../../lib/dropbox";
 interface iTask {
-  msg: string;
-  name: string;
+  title: string;
+  done: boolean;
+  id: number;
 }
 
 const Task: Uses<iTask> = ({ title, done, id }) => (
