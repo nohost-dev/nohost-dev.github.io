@@ -185,6 +185,7 @@ async function userSettings() {
   const response = await fetch("/your/settings.json").catch((err) => {
     console.error(err);
   });
+  if (response.status !== 200) return defaulSettings;
   const settings = await response.json().catch((err) => {
     console.error(err);
   });
