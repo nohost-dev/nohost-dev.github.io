@@ -7,13 +7,14 @@ interface iTask {
 
 const Task: Uses<iTask> = ({ title, done, id }) => (
   <div>
-    <span>{title}</span> ({id})
+    <span>{title}</span>
     <input type="checkbox" bind:checked={done} />
   </div>
 );
 
 const TaskList: Uses<iTask[]> = (tasks) => (
   <div>
+    <h3>Tasks</h3>
     <Task.repeat props={tasks} />
   </div>
 );
