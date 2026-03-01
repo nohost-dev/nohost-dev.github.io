@@ -17,7 +17,22 @@ const noHostRoutes = {
   },
 };
 
-console.log("[SW] Started");
+const defaulSettings = {
+  apps: [
+    {
+      path: "demo",
+      menu: "Demo",
+      manifest: "/demo/manifest.json",
+    },
+    {
+      path: "demo2",
+      menu: "App2",
+      manifest: "/demo2/manifest.json",
+    },
+  ],
+};
+
+// console.log("[SW] Started");
 /**
  * The install event triggers once for every new version of the service worker,
  * which should have an updated app_version?
@@ -28,11 +43,11 @@ console.log("[SW] Started");
  * At this point we cache the minimum files required to run.
  */
 self.addEventListener("install", (event) => {
-  console.log("[SW] Installing SW version:", VERSION);
+  // console.log("[SW] Installing SW version:", VERSION);
   event.waitUntil(
     caches.open(staticCacheName).then((cache) => {
       // getFile('/hello.txt')
-      console.log("[SW] Caching app shell");
+      // console.log("[SW] Caching app shell");
       // return cache.addAll([
       //   new Request("{{ turbopage_template }}", { cache: "no-cache" }),
       //   "/manifest.json"
@@ -48,7 +63,15 @@ self.addEventListener("install", (event) => {
 self.addEventListener("fetch", (event) => {
   const request = event.request;
   console.log("[SW] nav to: ", request.mode, request.url);
-  if (request.mode == "navigate") {
+  console.log("[SW] relative: ", relativePath(request.url));
+  if (relativePath(request.url) == "your/settings.json") {
+    console.log("[SW] serving settings");
+    event.respondWith(
+      new Response(JSON.stringify(defaulSettings), {
+        headers: { "Content-Type": "application/json" },
+      })
+    );
+  } else if (request.mode == "navigate") {
     const controlledRoute = getControlledRoute(request.url);
     if (controlledRoute) {
       event.respondWith(getControlledRouteResponses(controlledRoute));
@@ -67,7 +90,7 @@ async function getControlledRouteResponses(controlledRoute) {
   const shortPath = controlledRoute.slice(toRemove.length);
   const routeMap = isUserAppRoute ? await userRoutes() : noHostRoutes;
 
-  console.log(routeMap, shortPath);
+  // console.log(routeMap, shortPath);
   const matchingRoute = routeMap.find((entry) => entry.path === shortPath);
   if (matchingRoute) {
     return buildAppResponse(matchingRoute);
@@ -91,7 +114,7 @@ async function buildAppResponse(route) {
   const { base } = manifest;
   head = assetsToString(manifest.head, base);
   body = assetsToString(manifest.body, base);
-  console.log("HEAD/BODY", head, body);
+  // console.log("HEAD/BODY", head, body);
   const response = await fetch("/skeleton.html");
   const bodyStream = response.body
     .pipeThrough(new TextDecoderStream())
@@ -154,21 +177,7 @@ const streamingReplace = (find, replace) => {
 };
 
 async function userRoutes() {
-  // const settings = await userSettings();
-  const settings = {
-    apps: [
-      {
-        path: "demo",
-        menu: "Demo",
-        manifest: "/demo/manifest.json",
-      },
-      {
-        path: "demo2",
-        menu: "Demo2",
-        manifest: "/demo2/manifest.json",
-      },
-    ],
-  };
+  const settings = await userSettings();
   return settings["apps"];
 }
 

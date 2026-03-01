@@ -1,5 +1,5 @@
-import { mount, Uses } from "wallace";
-import { fetchFile } from "../../lib/dropbox";
+import { mount, Uses, watch } from "wallace";
+import { dbx } from "../../lib/dropbox";
 interface iTask {
   msg: string;
   name: string;
@@ -8,7 +8,7 @@ interface iTask {
 const Task: Uses<iTask> = ({ title, done, id }) => (
   <div>
     <span>{title}</span> ({id})
-    <input type="checkbox" checked={done} />
+    <input type="checkbox" bind:checked={done} />
   </div>
 );
 
@@ -26,7 +26,13 @@ const TaskList: Uses<iTask[]> = (tasks) => (
 // }
 // load();
 
-fetchFile("/tasks.json").then((settings) => {
-  console.log("settings", settings);
-  mount("app", TaskList, JSON.parse(settings).tasks);
-});
+window.onload = function () {
+  const root = mount("app", TaskList, []);
+  dbx.getJson("/tasks.json").then((settings) => {
+    const tasks = watch(settings.tasks, () => {
+      dbx.putJson("/tasks.json", settings);
+      root.update();
+    });
+    root.render(tasks);
+  });
+};

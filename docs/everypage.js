@@ -98,33 +98,3 @@ window.onload = function () {
   }
   com.init();
 };
-
-/*
-Fake Dropbox which goes to data dir via webpack.
-*/
-
-function Dropbox() {
-  this.base = "/api/dbx/";
-}
-
-Dropbox.prototype = {
-  fetch(path, opts) {
-    return fetch(this.base + path.replace(/^\/+/, ""), opts);
-  },
-  fetchFile: function (path) {
-    this.fetch(path).then((response) => response.body);
-  },
-  saveFile: function (path, data) {
-    console.log("Saving", path);
-  },
-  fetchJson: function (path) {
-    return this.fetch(path, { method: "get" }).then((response) =>
-      response.json().then((rjson) => JSON.parse(rjson.data))
-    );
-  },
-  saveJson: function (path, data) {
-    return this.fetch(path, { method: "post", body: JSON.stringify(data) });
-  },
-};
-
-window.dbx = new Dropbox();
